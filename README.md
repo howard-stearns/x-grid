@@ -11,6 +11,13 @@ This is job-application coding exercise, specified as follows:
 3. Make x's draggable from their grid square to any other grid squares within the grid. If an x is drag-and-dropped to a grid square already containing an x, the drag-and-rop action is cancelled.
 4. Make the positions of all 'x's sync in other browsers/tabs with the same URL from Step 1. No restrictions on the backend paltform."
 
-Because mobile doesn't implement the standard (e.g., HTML5) drag-and-drop, I interpret this as as puzzle of how to implement draggable, multi-user interaction-state from first principles, staying DRY and elegent.
+## Files and Operation
+
+Because mobile doesn't implement the standard (e.g., HTML5) drag-and-drop, I interpret this as as puzzle of how to implement draggable, multi-user interaction-state from first principles, staying DRY and elegent. That's all self contained in x-grid.js.
+
+x-grid.html can be used directly in a browser. It's fully functional, but of course, not multi-user.
+
+The multi-user capability is provided by a very tiny nodejs server in app.js. Just run `node app`. No other libraries are needed. 
+(There is no checking that each participant is using the same grid size. I figured that would just obscure the important stuff.)
 
 It's against my religion to not include a test suite, but I'm not about to try to define an in-browser test suite for a multi-user asynchronous app without a third-party library (like jasmine, for example).
