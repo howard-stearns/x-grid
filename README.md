@@ -19,7 +19,7 @@ However, there's a cultural issue in the spec, with the use of fragment identifi
 * Some developers consider the part of a url to identify the resource, and the fragment identifier (the #4, above) to identify just a view onto the resource. This is consistent with the views of W3c (e.g. http://www.w3.org/DesignIssues/Fragment.html) and with how Google crawls websites (e.g., https://developers.google.com/webmasters/ajax-crawling/docs/getting-started).
 * Others use different fragment identifiers to identify different resources (e.g., angularjs).
 
-My own view is that the latter is wrong, resulting in, e.g., an inability to be crawled properly. The proper technique for having a parameterized resource is to use query parameters. Since the spec here uses fragments with no path or query, I'm interpreting the "game" or "board" to be designated entirely by the domain. This greatly simplifies the problem, such that each domain is a different board, and there is no checking for different sizes by different users at the same domain. This is consistent with the idea that the task is to focus on the first-principle multi-user interaction state. If you want to see multiple boards within a server, or coordination of game size between players, then lets discuss a different url format.
+My own view is that the latter is wrong, resulting in, e.g., an inability to be crawled properly. The proper technique for having a parameterized resource is to use query parameters. Since the spec here uses fragments with no path or query, I'm interpreting the "game" or "board" to be designated entirely by the domain. This greatly simplifies the problem, such that each domain is a different board, and there is no checking for different sizes by different users at the same domain. This is consistent with the idea that the task is to focus on the first-principle multi-user interaction state. But of course, it's perfectly fair to consider the URL and server design as part of the "test", so if you want to see multiple boards within a server, or coordination of game size between players, then lets discuss a different url format.
 
 
 ## Files and Operation
@@ -30,4 +30,4 @@ x-grid.html can be used directly in a browser. It's fully functional, but of cou
 
 The multi-user capability is provided by a very tiny nodejs server in app.js. Just run `node app`. No other libraries are needed. 
 
-It's against my religion to not include a test suite, but I'm not about to try to define an in-browser test suite for a multi-user asynchronous app without a third-party library (like jasmine, for example).
+It's against my religion to not include a test suite, but since no third-party library (e.g., jasmine) may be used in the browser in this exercise, and asynchronous in-browser testing is fairly involved, I'm assuming that's out of scope.
