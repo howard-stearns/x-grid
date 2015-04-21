@@ -3,6 +3,8 @@
 
 // As a coding exercise, I'm going to opt for simplicity and perspicuity, rather than dealing with out-of-scope
 // production issues such as namespace management. Hence no information-hiding by function, class, etc.
+// 
+// Please see the README.md
 
 
 /// UTILITIES ///////////////////////////////////////
@@ -29,13 +31,30 @@ function sendMessage(path, callback) {
 
 
 /// APPLICATION LOGIC ///////////////////////////////////////
+// In this simple example, the application state is kept directly in the DOM cell object. In a real app, it would likely
+// be worthwhile to separate into a model object and separate DOM view.
+//
+// We could use cell.innerHTML as our state, either holding 'X' (truthy) or '' (falsey). But changing state would 
+// mean changing the DOM. So here we always hold an 'X' and turn visibility on and off as our state.
+function initCell(cell) {
+	var display = document.createElement('span');
+	display.innerHTML = 'X';
+	display.style.visibility = 'hidden';
+	cell.appendChild(display);
+}
+function isOn(cell) {
+	return cell.children[0].style.visibility === 'visible';
+}
+function setState(cell, isOn) {
+	cell.children[0].style.visibility = isOn ? 'visible' : 'hidden';
+}
 
 // Updates the board according to the spec.
 function handlePlay(startElement, endElement) {
 	var isMove = startElement != endElement;
-	if (isMove && (!startElement.innerHTML || endElement.innerHTML)) { return; }
-	if (isMove) { startElement.innerHTML = ""; }
-	endElement.innerHTML = endElement.innerHTML ? "" : "X";
+	if (isMove && (!isOn(startElement) || isOn(endElement))) { return; }
+	if (isMove) { setState(startElement, false); }
+	setState(endElement, !isOn(endElement));
 }
 
 // All the plays come by messages from the server. I would rather use socket.io for this,
@@ -93,7 +112,7 @@ function findLastTouchedElement(dflt) {
 // Is dragging a translucent X merely being pretty, or an essential part of the functionality?
 // In any case, this code is where one would implement that sort of thing, which I have deliberately ommited for clarity.
 function handleStart() {  // Record startElement.
-	startElement = event.target;
+	startElement = event.currentTarget;
 	event.preventDefault();
 }
 function handleDrag() {   // Record lastTouch. Mobile only.
@@ -101,7 +120,7 @@ function handleDrag() {   // Record lastTouch. Mobile only.
 	event.preventDefault();
 }
 function handleStop() {   // Update the start/end elements per the spec.
-	var endElement = findLastTouchedElement(event.target);
+	var endElement = findLastTouchedElement(event.currentTarget);
 	if (!endElement) { return; } // dragged off the grid
 	event.preventDefault();
 
@@ -127,6 +146,7 @@ for (rowNum = 0; rowNum < n; rowNum++) {
 	for (colNum = 0; colNum < n; colNum++) {
 		cell = document.createElement('td');
 		cell.setAttribute('id', colNum + ':' + rowNum);
+		initCell(cell);
 		// Use same handlers for desktop (mouse events) and mobile (touch events):
 		cell.addEventListener('mousedown', handleStart, false);
 		cell.addEventListener('touchstart', handleStart, false);
