@@ -18,6 +18,7 @@ Because mobile doesn't implement the standard (e.g., HTML5) drag-and-drop, I int
 However, there's a cultural issue in the spec, with the use of fragment identifiers for size:
 * Some developers consider the part of a url to identify the resource, and the fragment identifier (the #4, above) to identify just a view onto the resource. This is consistent with the views of W3c (e.g. http://www.w3.org/DesignIssues/Fragment.html) and with how Google crawls websites (e.g., https://developers.google.com/webmasters/ajax-crawling/docs/getting-started).
 * Others use different fragment identifiers to identify different resources (e.g., angularjs).
+
 My own view is that the latter is wrong, resulting in, e.g., an inability to be crawled properly. The proper technique for having a parameterized resource is to use query parameters. Since the spec here uses fragments with no path or query, I'm interpreting the "game" or "board" to be designated entirely by the domain. This greatly simplifies the problem, such that each domain is a different board, and there is no checking for different sizes by different users at the same domain. This is consistent with the idea that the task is to focus on the first-principle multi-user interaction state. If you want to see multiple boards within a server, or coordination of game size between players, then lets discuss a different url format.
 
 
